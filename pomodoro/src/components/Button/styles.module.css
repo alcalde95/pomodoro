@@ -1,0 +1,17 @@
+.btns {
+    background-color: gainsboro;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 3px 3px rgb(0, 0, 0);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.btns:hover {
+    box-shadow: none;
+    transform: translate(3px, 3px);
+}
+
+/*
+    El resto del código ha sido retirado porque ya no es útil.
+*/

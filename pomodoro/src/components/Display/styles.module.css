@@ -1,0 +1,18 @@
+@font-face {
+    font-family: calculator;
+    src: url(../../assets/fonts/calculator/Calculator.ttf);
+}
+
+#displayContainer {
+    background-color: #1b1b1b;
+    color: gainsboro;
+    padding: 1rem;
+    border-radius: 1rem;
+    font-size: 3rem;
+    font-weight: 600;
+    font-family: calculator;
+}
+
+#displayContainer > p {
+    text-align: justify;
+}
