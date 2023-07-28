@@ -1,7 +1,4 @@
-@font-face {
-    font-family: calculator;
-    src: url(../../assets/fonts/calculator/Calculator.ttf);
-}
+
 
 #displayContainer {
     background-color: #1b1b1b;
