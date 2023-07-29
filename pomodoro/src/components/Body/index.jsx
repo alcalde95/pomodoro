@@ -19,20 +19,26 @@ const Body = () => {
     const [durationRestFase, setdurationRestFase] = useState('0')
     const [endTime, setendTime] = useState(date.getHours() + ':' + date.getMinutes())
     const [hoursPomodoro, sethoursPomodoro] = useState(0)
-    
+    const [fase,setfase] = useState('Trabajo')
     if(durationActiveFase < '0') setdurationActiveFase('0')
 
     if(endTime < date.getHours()+ ':' + date.getMinutes()) setendTime(date.getHours() + ':' + date.getMinutes())
     
     const testValues = () => {
-        setlaunch('')
+    
+        if(durationActiveFase != '' && durationRestFase != '' && endTime >(date.getHours() + ':' + date.getMinutes())){
+            setlaunch('');
+        }else alert("Invalid data");
     }
 
     const manageEndTime = (time) => {
             setendTime(time)
             let solucion = ((parseInt(time.charAt(0)+time.charAt(1))*3600 + parseInt(time.charAt(3)+time.charAt(4))*60)-(date.getHours()*3600+date.getMinutes()*60))/3600
             solucion = solucion.toFixed(2)
-            sethoursPomodoro(solucion)
+            if(solucion>0){
+                sethoursPomodoro(solucion)
+            }else sethoursPomodoro(0)
+            
     }
 
     
@@ -64,7 +70,9 @@ const Body = () => {
        <div>
     <Display value={durationActiveFase} />
         <Button value = 'STOP' action={() => endAll()} />
-        <p>todo el cuerpo con el displays</p>
+        <p id='horaInicio'>Hora inicio : {date.getHours()+':'+date.getMinutes()}</p>
+        <p id='fase'>Fase : {fase}</p>
+        <p id='horaFin'>Hora Fin : {endTime}</p>
        </div>
        
     )
