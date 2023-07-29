@@ -18,7 +18,7 @@ const Body = () => {
     const [durationActiveFase, setdurationActiveFase] = useState('0')
     const [durationRestFase, setdurationRestFase] = useState('0')
     const [endTime, setendTime] = useState(date.getHours() + ':' + date.getMinutes())
-    const [hoursPomodoro, sethoursPomodoro] = useState('0')
+    const [hoursPomodoro, sethoursPomodoro] = useState(0)
     
     if(durationActiveFase < '0') setdurationActiveFase('0')
 
@@ -28,7 +28,12 @@ const Body = () => {
         setlaunch('')
     }
 
-
+    const manageEndTime = (time) => {
+            setendTime(time)
+            let solucion = ((parseInt(time.charAt(0)+time.charAt(1))*3600 + parseInt(time.charAt(3)+time.charAt(4))*60)-(date.getHours()*3600+date.getMinutes()*60))/3600
+            solucion = solucion.toFixed(2)
+            sethoursPomodoro(solucion)
+    }
 
     
     const endAll = () => {
@@ -48,7 +53,7 @@ const Body = () => {
         </form>
         <p>End time</p>
         <form >
-            <input type="time" value={endTime} name= 'endTime' autoComplete='off' onChange={e => setendTime(e.target.value)}/>
+            <input type="time" value={endTime} name= 'endTime' autoComplete='off' onChange={e => manageEndTime(e.target.value)}/>
         </form>
         <p>Horas de duración de la sesión : {hoursPomodoro}</p>
         <Button value='Iniciar Sesion' action={() => testValues()} />
