@@ -1,8 +1,12 @@
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Button from '../Button'
 import Display from '../Display'
 import styles from './styles.module.css'
+
+const PHASE = {
+    trabajo: 'Trabajo',
+    descanso: 'Descanso'
+}
 
 const Body = () => {
 
@@ -14,38 +18,40 @@ const Body = () => {
         Para más información ver https://react.dev/reference/react/useState
     */
     const date = new Date();
-    const [launch, setlaunch] = useState('true')
+    const [launch, setlaunch] = useState(true)
     const [durationActiveFase, setdurationActiveFase] = useState(0)
     const [durationRestFase, setdurationRestFase] = useState(0)
     const [endTime, setendTime] = useState(date.getHours() + ':' + date.getMinutes())
     const [hoursPomodoro, sethoursPomodoro] = useState(0)
-    const [fase, setfase] = useState('Trabajo')
+    const [fase, setfase] = useState(PHASE.trabajo)
 
-    const [cambioFase, setCambioFase] = useState('0')
+    const [cambioFase, setCambioFase] = useState(0)
 
     const [diff, setDiff] = useState(null)
     const [initial, setInitial] = useState(null)
-
-    const tick = () => {
-        setDiff(new Date(+new Date() - initial))
-    };
 
     const start = () => {
         setInitial(+new Date())
     }
 
     useEffect(() => {
-        if (initial && cambioFase === '0') {
-            requestAnimationFrame(tick);
-            console.log('useEffectInitial')
-        }
-    }, [initial]);
+
+        const tick = () => {
+            setDiff(new Date(+new Date() - initial))
+        };
+
+        const interval = setInterval(() => {
+            if (initial && cambioFase === 0) {
+                requestAnimationFrame(tick);
+                console.log('useEffectInitial')
+            }
+        }, 1);
+        return () => clearInterval(interval);
+
+    }, [cambioFase, diff, initial]);
 
     useEffect(() => {
-        if (diff) {
-            console.log('useEffectDiff')
-            requestAnimationFrame(tick);
-        }
+
     }, [diff])
 
     const timeFormat = (date) => {
@@ -59,24 +65,20 @@ const Body = () => {
         cm = cm < 10 ? "0" + cm : cm;
 
 
-        if (fase == 'Trabajo' && parseInt(mm) >= durationActiveFase) {
-            setfase('Descanso');
+        if (fase == PHASE.trabajo && parseInt(mm) >= durationActiveFase) {
+            setfase(PHASE.descanso);
             setCambioFase(true);
             start()
             return "00:00:00";
         } else {
-            if (fase == 'Descanso' && parseInt(mm) >= durationRestFase) {
-                setfase('Trabajo');
+            if (fase == PHASE.descanso && parseInt(mm) >= durationRestFase) {
+                setfase(PHASE.trabajo);
                 start()
                 return "00:00:00";
             }
         }
         return mm + ':' + ss + ':' + cm;
     };
-
-
-
-
 
 
     if (durationActiveFase < '0') setdurationActiveFase('0')
@@ -111,7 +113,7 @@ const Body = () => {
 
 
     return (
-        launch == 'true' ?
+        launch == true ?
             <div className={styles.login}>
                 <p>Duration Active Fase(in minutes)</p>
                 <form >
