@@ -12,20 +12,36 @@ const PHASE = {
 const Body = () => {
 
     const date = new Date();
+    const [horaInicio,setHoraInicio] = useState(date.getHours() + ':' + date.getMinutes())
     const [launch, setlaunch] = useState(true)
     const [durationActiveFase, setdurationActiveFase] = useState(0)
     const [durationRestFase, setdurationRestFase] = useState(0)
-    const [endTime, setendTime] = useState(date.getHours() + ':' + date.getMinutes())
+    const [endTime, setendTime] = useState((date.getHours()< 10 ? '0' + date.getHours() : date.getHours()) +':'+ (date.getMinutes()< 10 ? '0' + date.getMinutes() : date.getMinutes()))
     const [hoursPomodoro, sethoursPomodoro] = useState(0)
     const [fase, setfase] = useState(PHASE.trabajo)
 
-
+    const [fin, setFin] = useState('no')
 
     const [seconds, setSeconds] = useState(0);
 
+
+
+
     useEffect(() => {
+
+        const finishJurney = () =>{
+            let d = new Date();
+            if(d.getHours() ==(parseInt(endTime.charAt(0) + endTime.charAt(1))) && d.getMinutes()>=parseInt(endTime.charAt(3) + endTime.charAt(4))){
+                setFin('yes')
+            }
+        }
+
         const interval = setInterval(() => {
-            if (launch == false) {
+            
+            if (launch == false && fin === 'no') {
+
+                finishJurney();
+
                 setSeconds(seconds => seconds + 1);
                 console.log({ seconds })
                 if (fase === PHASE.trabajo && seconds >= (durationActiveFase * 60)) {
@@ -41,7 +57,7 @@ const Body = () => {
 
         }, 1000);
         return () => clearInterval(interval);
-    },);
+    });
 
 
 
@@ -81,6 +97,7 @@ const Body = () => {
     }
 
     const endAll = () => {
+        setFin('')
     }
 
     return (
@@ -107,7 +124,7 @@ const Body = () => {
             <div>
                 <Display value={getTime(seconds)} />
                 <Button value='STOP' action={() => endAll()} />
-                <p id='horaInicio'>Hora inicio : {date.getHours() + ':' + date.getMinutes()}</p>
+                <p id='horaInicio'>Hora inicio : {horaInicio}</p>
                 <p id='fase'>Fase : {fase}</p>
                 <p id='horaFin'>Hora Fin : {endTime}</p>
             </div>
