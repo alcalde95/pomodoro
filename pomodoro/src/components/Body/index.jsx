@@ -25,7 +25,9 @@ const Body = () => {
     const [seconds, setSeconds] = useState(0);
 
 
-
+    useEffect(() =>{
+        setHoraInicio(date.getHours() + ':' + date.getMinutes())
+    },[])
 
     useEffect(() => {
 
@@ -121,7 +123,7 @@ const Body = () => {
 
             :
 
-            <div>
+            <div className={styles.pomodoro}>
                 <Display value={getTime(seconds)} />
                 <Button value='STOP' action={() => endAll()} />
                 <p id='horaInicio'>Hora inicio : {horaInicio}</p>

@@ -8,8 +8,13 @@
     font-size: 3rem;
     font-weight: 600;
     font-family: calculator;
+    width: 0 auto;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    border:  azure 1px solid;
 }
 
 #displayContainer > p {
-    text-align: justify;
+    text-align: center;
 }
